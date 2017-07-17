@@ -18,7 +18,6 @@ app.get('/', function (req, res) {
     res.send('Hello World!');
 });
 
-// Logger config
 logger.remove(logger.transports.Console);
 logger.add(logger.transports.Console, { colorize: true, timestamp: true });
 
@@ -27,9 +26,19 @@ io.sockets.on( 'connection', function ( socket ) {
     
     console.log('Number of connections:' + connectionsArray.length);
 
-	socket.on('konfirmasi', function (message) {
-	  socket.broadcast.emit('broadcast', message);
+	socket.on('send_donatur', function (message) {
+	  socket.broadcast.emit('broadcast_donatur', message);
 	  logger.info('ElephantIO broadcast > ' + JSON.stringify(message));
+    });
+
+    socket.on('konfirm_humas', function (message) {
+        socket.broadcast.emit('b_konfirm_humas', message);
+        logger.info('ElephantIO broadcast > ' + JSON.stringify(message));
+    });
+
+    socket.on('konsul_humas', function (message) {
+        socket.broadcast.emit('b_konsul_humas', message);
+        logger.info('ElephantIO broadcast > ' + JSON.stringify(message));
     });
 	
     socket.on('disconnect', function () {
